@@ -20,7 +20,7 @@ export default function Register() {
 
     try {
       const res =await axios.post(
-  "https://project-zviv.onrender.com/api/register",
+  "https://project-zviw.onrender.com/api/register",
   formData
 )
 

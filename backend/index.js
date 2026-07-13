@@ -12,7 +12,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin:['project-hy61-e8qqqybkj-riswan2004kolappuram-gifs-projects.vercel.app','http://localhost:5173/'],  
+  origin:['project-hy61.vercel.app','http://localhost:5173/'],  
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders:["Content-Type","Authorization"]
