@@ -1,4 +1,4 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -25,15 +25,16 @@ const Login = () => {
         "https://project-zviw.onrender.com/api/login",
         formData
       );
+      navigate("/dashboard");
 
-      alert(res.data.message);
 
-    
+
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
       }
+      alert(res.data.message);
 
-      navigate("/dashboard");
+
     } catch (err) {
       alert(err.response?.data?.message || "Login Failed");
     }
