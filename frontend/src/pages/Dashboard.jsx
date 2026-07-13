@@ -11,6 +11,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [editTask, setEditTask] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -106,15 +107,15 @@ const Dashboard = () => {
   ).length;
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100 overflow-x-hidden">
 
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col min-w-0">
 
-        <Navbar />
+        <Navbar onMenuClick={() => setSidebarOpen(true)} />
 
-        <div className="p-6">
+        <div className="p-4 md:p-6 flex-1">
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

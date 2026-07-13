@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {FiMenu,FiMoon,FiBell, FiUser,} from "react-icons/fi";
 
-export default function Navbar() {
+export default function Navbar({ onMenuClick }) {
   const [userName, setUserName] = useState("Riswan KT");
 
   useEffect(() => {
@@ -19,20 +19,23 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="w-full h-20 bg-white shadow-sm flex items-center justify-between px-8">
+    <div className="w-full h-20 bg-white shadow-sm flex items-center justify-between px-4 md:px-8">
 
       {/* Left */}
-      <div className="flex items-center gap-5">
-        <button className="text-3xl text-gray-700 hover:text-indigo-600">
+      <div className="flex items-center gap-3 md:gap-5">
+        <button 
+          onClick={onMenuClick}
+          className="text-3xl text-gray-700 hover:text-indigo-600 lg:hidden cursor-pointer"
+        >
           <FiMenu />
         </button>
 
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-xl md:text-3xl font-bold text-gray-800">
             Welcome Back 👋
           </h1>
 
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-500 text-xs md:text-sm hidden sm:block">
             Manage your daily tasks efficiently
           </p>
         </div>
