@@ -22,7 +22,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://project-zviv.onrender.com/api/login",
+        "https://project-zviw.onrender.com/api/login",
         formData
       );
 
