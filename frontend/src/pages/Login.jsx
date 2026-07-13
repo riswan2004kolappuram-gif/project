@@ -28,7 +28,7 @@ const Login = () => {
 
       alert(res.data.message);
 
-      // Token ഉണ്ടെങ്കിൽ save ചെയ്യാം
+    
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
       }

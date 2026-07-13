@@ -46,53 +46,52 @@ export const registerUser = async (req, res) => {
 };
  
 export const loginUser = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-// console.log("email,paswword")
+ try {
+    const { email, password } = req.body;
+console.log("email,paswword")
  
-//     if (!email || !password) {
-//       return res.status(400).json({
-//         message: "Please fill all fields",
-//       });
-//     }
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Please fill all fields",
+      });
+    }
  
-//     const user = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-  //   if (!user) {
-  //     return res.status(400).json({
-  //       message: "Invalid Email or Password",
-  //     });
-  //   }
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid Email or Password",
+      });
+    }
  
-  //   const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
-  //   if (!isMatch) {
-  //     return res.status(400).json({
-  //       message: "Invalid Email or Password",
-  //     });
-  //   }
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid Email or Password",
+      });
+    }
  
-  //   const token = jwt.sign(
-  //     { id: user._id },
-  //     JWT_SECRET,
-  //     {
-  //       expiresIn: "1d",
-  //     }
-  //   )
+    const token = jwt.sign(
+      { id: user._id },
+      JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    )
 
-  //   res.status(200).json({
-  //     message: "Login Successful",
-  //     token,
-  //     user: {
-  //       id: user._id,
-  //       name: user.name,
-  //       email: user.email,
-  //     },
-  //   });
-  // } catch (error) {
-  //   res.status(500).json({
-  //     message: error.message,
-  //   });
-  // }
-  res.send("jiiii")
-};
+    res.status(200).json({
+      message: "Login Successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+}
