@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,18 +17,31 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
- 
-    console.log(formData);
- 
-    navigate("/dashboard");
+
+    try {
+      const res = await axios.post(
+        "https://project-zviv.onrender.com/api/login",
+        formData
+      );
+
+      alert(res.data.message);
+
+      // Token ഉണ്ടെങ്കിൽ save ചെയ്യാം
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+      }
+
+      navigate("/dashboard");
+    } catch (err) {
+      alert(err.response?.data?.message || "Login Failed");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-lg">
-
         <h1 className="text-3xl font-bold text-center text-indigo-600">
           Task Manager
         </h1>
@@ -37,11 +51,8 @@ const Login = () => {
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
- 
           <div>
-            <label className="block mb-2 font-medium">
-              Email
-            </label>
+            <label className="block mb-2 font-medium">Email</label>
 
             <input
               type="email"
@@ -53,11 +64,9 @@ const Login = () => {
               required
             />
           </div>
- 
+
           <div>
-            <label className="block mb-2 font-medium">
-              Password
-            </label>
+            <label className="block mb-2 font-medium">Password</label>
 
             <input
               type="password"
@@ -69,7 +78,7 @@ const Login = () => {
               required
             />
           </div>
- 
+
           <button
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition"
