@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {FiMenu,FiMoon,FiBell, FiUser,} from "react-icons/fi";
 
 export default function Navbar() {
+  const [userName, setUserName] = useState("Riswan KT");
+
+  useEffect(() => {
+    try {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        if (user && user.name) {
+          setUserName(user.name);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load user info from localStorage", err);
+    }
+  }, []);
+
   return (
     <div className="w-full h-20 bg-white shadow-sm flex items-center justify-between px-8">
 
@@ -45,7 +61,7 @@ export default function Navbar() {
 
           <div>
             <h2 className="font-semibold text-gray-800">
-              Riswan KT
+              {userName}
             </h2>
 
             <p className="text-sm text-gray-500">

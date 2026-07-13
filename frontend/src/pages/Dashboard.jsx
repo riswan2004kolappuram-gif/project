@@ -1,4 +1,6 @@
- import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import StatsCard from "../components/StatsCard";
@@ -6,38 +8,87 @@ import TaskForm from "../components/TaskForm";
 import TaskCard from "../components/TaskCard";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [editTask, setEditTask] = useState(null);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
+    const fetchTasks = async () => {
+      try {
+        const res = await axios.get("https://project-zviw.onrender.com/api/tasks", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // Make sure tasks is an array
+        setTasks(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error("Error fetching tasks:", err);
+      }
+    };
+
+    fetchTasks();
+  }, [navigate, token]);
  
-  const handleAddTask = (newTask) => {
-    setTasks([
-      ...tasks,
-      {
-        _id: Date.now(),
-        ...newTask,
-      },
-    ]);
+  const handleAddTask = async (newTask) => {
+    try {
+      const res = await axios.post(
+        "https://project-zviw.onrender.com/api/tasks",
+        newTask,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (res.data.task) {
+        setTasks([...tasks, res.data.task]);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to create task");
+    }
   };
  
   const handleEdit = (task) => {
     setEditTask(task);
   };
  
-  const handleUpdateTask = (updatedTask) => {
-    setTasks(
-      tasks.map((task) =>
-        task._id === updatedTask._id ? updatedTask : task
-      )
-    );
-
-    setEditTask(null);
+  const handleUpdateTask = async (updatedTask) => {
+    try {
+      const res = await axios.put(
+        `https://project-zviw.onrender.com/api/tasks/${updatedTask._id}`,
+        updatedTask,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (res.data.updatedTask) {
+        setTasks(
+          tasks.map((task) =>
+            task._id === updatedTask._id ? res.data.updatedTask : task
+          )
+        );
+      }
+      setEditTask(null);
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to update task");
+    }
   };
  
-  const handleDelete = (id) => {
-    setTasks(tasks.filter((task) => task._id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`https://project-zviw.onrender.com/api/tasks/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setTasks(tasks.filter((task) => task._id !== id));
 
-    if (editTask && editTask._id === id) {
-      setEditTask(null);
+      if (editTask && editTask._id === id) {
+        setEditTask(null);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to delete task");
     }
   };
  

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FiHome,
   FiCheckSquare,
@@ -8,6 +9,14 @@ import {
 } from "react-icons/fi";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
   return (
     <div className="w-64 min-h-screen bg-slate-900 text-white flex flex-col">
 
@@ -22,13 +31,13 @@ const Sidebar = () => {
         <ul className="space-y-3">
 
           <li>
-            <a
-              href="#"
+            <Link
+              to="/dashboard"
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition"
             >
               <FiHome size={20} />
               <span>Dashboard</span>
-            </a>
+            </Link>
           </li>
 
           <li>
@@ -66,7 +75,10 @@ const Sidebar = () => {
 
      
       <div className="p-5 border-t border-slate-700">
-        <button className="w-full flex items-center gap-3 p-3 rounded-lg bg-red-500 hover:bg-red-600 transition">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 p-3 rounded-lg bg-red-500 hover:bg-red-600 transition cursor-pointer"
+        >
           <FiLogOut size={20} />
           <span>Logout</span>
         </button>

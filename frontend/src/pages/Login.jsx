@@ -25,16 +25,15 @@ const Login = () => {
         "https://project-zviw.onrender.com/api/login",
         formData
       );
-      navigate("/dashboard");
-
-
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
       }
+      if (res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+      }
       alert(res.data.message);
-
-
+      navigate("/dashboard");
     } catch (err) {
       alert(err.response?.data?.message || "Login Failed");
     }
