@@ -8,8 +8,7 @@ import TaskCard from "../components/TaskCard";
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [editTask, setEditTask] = useState(null);
-
-  // Add Task
+ 
   const handleAddTask = (newTask) => {
     setTasks([
       ...tasks,
@@ -19,13 +18,11 @@ const Dashboard = () => {
       },
     ]);
   };
-
-  // Edit Button Click
+ 
   const handleEdit = (task) => {
     setEditTask(task);
   };
-
-  // Update Task
+ 
   const handleUpdateTask = (updatedTask) => {
     setTasks(
       tasks.map((task) =>
@@ -35,8 +32,7 @@ const Dashboard = () => {
 
     setEditTask(null);
   };
-
-  // Delete Task
+ 
   const handleDelete = (id) => {
     setTasks(tasks.filter((task) => task._id !== id));
 
@@ -44,8 +40,7 @@ const Dashboard = () => {
       setEditTask(null);
     }
   };
-
-  // Stats
+ 
   const total = tasks.length;
   const pending = tasks.filter(
     (task) => task.status === "Pending"
